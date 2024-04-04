@@ -42,3 +42,5 @@ Grupa składa się z następujących osób:
 - Kamil Raszkiewicz
 - Damian Richter
 - Oskar Rusiłowicz
+
+2024 E-wybory
