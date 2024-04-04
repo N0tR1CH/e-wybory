@@ -1,24 +1,44 @@
-# README
+# E-wybory - wybory przez internet
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Projekt zrealizowany w celu zaliczenia przedmiotu:
 
-Things you may want to cover:
+## Rozwiązania szkieletowe w tworzeniu aplikacji internetowych
 
-* Ruby version
+Semestr letni 2023/2024
 
-* System dependencies
+## Opis
 
-* Configuration
+Wybory:
 
-* Database creation
+- Prezydenckie
+- Parlamentarne
+- Starosty roku
+- Dziekana wydział
+- itd.
 
-* Database initialization
+Z wyborami wiąże się:
 
-* How to run the test suite
+- lista kandydatów
+- lista uprwanionych do głosowania
+- kryteria głosowania:
+  - ilu kandydatów można poprzeć
+  - czas głosowania
+  - itd.
 
-* Services (job queues, cache servers, search engines, etc.)
+Po zakończeniu głosowania serwis powinien udostępniać raport:
 
-* Deployment instructions
+- z wynikami poparcia kandydatów
+- frekwencją wyborczą.
 
-* ...
+Wybory powinny być:
+
+- tajne:
+  - nie należy pamiętać informacji kto na kogo głosował (nawet na poziomie bazy danych).
+
+## Grupa
+
+Grupa składa się z następujących osób:
+
+- Kamil Raszkiewicz
+- Damian Richter
+- Oskar Rusiłowicz
