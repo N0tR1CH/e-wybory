@@ -12,9 +12,11 @@ RUN apt-get update -y \
 
 COPY Gemfile* /usr/src/app/
 WORKDIR /usr/src/app
-RUN  bundle install && bin/rails tailwindcss:install && bundle install
+RUN  bundle install
 
 COPY . /usr/src/app/
+
+RUN bin/rails tailwindcss:install && bundle install
 
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
 
