@@ -7,9 +7,8 @@ services:
     volumes:
       - .:/usr/src/app
     env_file:
-      - .env/development/database
-      - .env/development/webapp
-    tty: true
+      - ./.env/development/database
+      - ./.env/development/webapp
 
   redis:
     image: redis:7.2.4
@@ -17,4 +16,9 @@ services:
   database:
     image: postgres:16.2
     env_file:
-      - .env/development/database
+      - ./.env/development/database
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
