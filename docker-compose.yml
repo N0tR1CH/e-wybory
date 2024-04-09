@@ -9,6 +9,7 @@ services:
     env_file:
       - ./.env/development/database
       - ./.env/development/webapp
+    tty: true
 
   redis:
     image: redis:7.2.4
