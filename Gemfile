@@ -67,3 +67,5 @@ group :development do
 end
 
 gem "devise", "~> 4.9"
+
+gem "store_attribute", "~> 1.2"
