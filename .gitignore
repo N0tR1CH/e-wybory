@@ -36,3 +36,10 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Jetbrains
+/.devcontainer
+/.idea
+
+# Postgres backup
+/db_data
