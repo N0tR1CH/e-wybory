@@ -65,3 +65,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+gem "devise", "~> 4.9"
+
+gem "store_attribute", "~> 1.2"
