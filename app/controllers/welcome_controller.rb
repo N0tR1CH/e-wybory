@@ -6,4 +6,13 @@ class WelcomeController < ApplicationController
     redis.incr 'page hits'
     @page_hits = redis.get 'page hits'
   end
+
+  # GET
+  def testparameter
+    render :json => :id
+  end
+
+  def testparameter2
+    render :json => :id
+  end
 end
