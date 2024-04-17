@@ -1,4 +1,28 @@
 require "active_support/core_ext/integer/time"
+require "rake"
+
+swagger_unlocked = true
+
+Rails.application.reloader.to_prepare do
+  Dir["#{Rails.root}/app/controllers/**/*.rb"].each do |file|
+    require_dependency file
+  end
+end
+
+Rails.application.reloader.to_complete do
+
+  if swagger_unlocked
+    classes = ApplicationController.descendants
+
+    classes.each do |klass|
+      system("rails g rspec:swagger #{klass.to_s}")
+    end
+
+    system('rake rswag:specs:swaggerize')
+  end
+
+  swagger_unlocked = false
+end
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.

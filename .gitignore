@@ -37,5 +37,9 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+
+/public/swagger/*
+/spec/requests/*
+
 /app/assets/builds/*
 !/app/assets/builds/.keep
