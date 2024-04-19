@@ -18,4 +18,8 @@ user = User.where(email: 'jankowalski1969@mail.com').first_or_initialize
 user.update!(password: 'password', password_confirmation: 'password')
 
 admin = User.where(email: 'admin@mail.com').first_or_initialize
-admin.update!(password: 'password', password_confirmation: 'password')
+admin.update!(
+  password: 'password',
+  password_confirmation: 'password',
+  role: Role.find_by(name: 'admin')
+)
