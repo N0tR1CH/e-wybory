@@ -9,4 +9,8 @@ class User < ApplicationRecord
   before_validation do
     self.role ||= Role.find_by(name: 'user')
   end
+
+  def admin?
+    role.name == 'admin'
+  end
 end
