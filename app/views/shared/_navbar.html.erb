@@ -1,0 +1,23 @@
+<nav class="w-full flex justify-center">
+  <ul class="flex list-none mx-0 px-0">
+    <li class="mx-2"><%= link_to "Strona główna", root_path %></li>
+    <% if user_signed_in? %>
+      <li class="mx-2">
+        <%= button_to "Wyloguj", destroy_user_session_path, method: :delete %>
+      </li>
+      <li class="mx-2">
+        <%= link_to "Profil", edit_user_registration_path %>
+      </li>
+      <li class="mx-2">
+        <%= link_to "Wybory", elections_path %>
+      </li>
+    <% else %>
+      <li class="mx-2">
+        <%= link_to "Zaloguj", new_user_session_path %>
+      </li>
+      <li class="mx-2">
+        <%= link_to "Zarejestruj", new_user_registration_path %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

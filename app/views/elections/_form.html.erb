@@ -1,0 +1,63 @@
+<%= form_with(model: election, class: "contents") do |form| %>
+  <% if election.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(election.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+      <ul>
+        <% election.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend class="font-bold text-4xl">
+      Wybory
+    </legend>
+
+    <div class="my-5">
+      <%= form.label :name, 'Nazwa' %>
+      <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :description, 'Opis' %>
+      <%= form.text_field :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :date_from, 'Czas rozpoczęcia wyborów' %>
+      <%= form.datetime_field :date_from, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+    <div class="my-5">
+      <%= form.label :date_to, 'Czas zakończenia wyborów' %>
+      <%= form.datetime_field :date_to, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+  </fieldset>
+
+  <br/>
+
+  <%= form.fields_for :election_groups do |ff| %>
+    <fieldset>
+      <legend class="font-bold text-4xl">
+        Grupy
+      </legend>
+
+      <div class="my-5">
+        <%= ff.label :group_id, 'Grupa' %><br/>
+        <%= ff.collection_select :group_id, Group.all, :id, :name, { include_blank: false }, { :multiple => true, :class => "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" } %>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <fieldset>
+    <legend class="font-bold text-4xl">
+      Karty
+    </legend>
+  </fieldset>
+
+  <div class="inline">
+    <%= form.submit 'Utwórz wybory', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
