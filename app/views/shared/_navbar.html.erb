@@ -6,7 +6,10 @@
         <%= button_to "Wyloguj", destroy_user_session_path, method: :delete %>
       </li>
       <li class="mx-2">
-        <%= link_to "Profil", edit_user_registration_path, method: :delete %>
+        <%= link_to "Profil", edit_user_registration_path %>
+      </li>
+      <li class="mx-2">
+        <%= link_to "Wybory", elections_path %>
       </li>
     <% else %>
       <li class="mx-2">

@@ -78,3 +78,5 @@ gem "devise", "~> 4.9"
 gem "store_attribute", "~> 1.2"
 
 gem "pundit", "~> 2.3"
+
+gem "hotwire-rails", "~> 0.1.3"

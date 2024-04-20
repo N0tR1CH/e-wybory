@@ -1,0 +1,13 @@
+<%= turbo_frame_tag "new_election_frame" do %>
+  <div class="mx-auto md:w-2/3 w-full">
+    <%= render "form", election: @election %>
+    <%=
+      link_to(
+        "Powrót do listy wyborów",
+        elections_path,
+        class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium",
+        data: { turbo_frame: "new_elections_frame" }
+      )
+    %>
+  </div>
+<% end %>
