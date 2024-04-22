@@ -44,17 +44,39 @@
         Grupy
       </legend>
 
-      <div class="my-5">
-        <%= ff.label :group_id, 'Grupa' %><br/>
-        <%= ff.collection_select :group_id, Group.all, :id, :name, { include_blank: false }, { :multiple => true, :class => "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" } %>
+      <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-32 overflow-x-visible overflow-y-auto py-2 px-4 w-full grid grid-cols-12 gap-x-2 min-h-6">
+        <% Group.all.each do |g| %>
+          <div class="col-span-1 flex flex-row justify-start">
+            <%= check_box_tag "election[election_groups][]", g.id, class:"self-center "%>
+          </div>
+          <div class="col-span-11 flex flex-row justify-start min-h-6">
+            <%= label_tag "group_ids_#{g.id}", g.name, class:"text-left" %>
+          </div>
+        <% end %>
       </div>
     </fieldset>
   <% end %>
 
   <fieldset>
+    <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-32 overflow-x-visible overflow-y-auto py-2 px-4 w-full grid grid-cols-12 gap-x-2 min-h-6">
+      <% ElectionSheet.all.each do |g| %>
+        <div class="col-span-1 flex flex-row justify-start">
+          <%= check_box_tag "election[election_groups][]", g.id, class:"self-center "%>
+        </div>
+        <div class="col-span-11 flex flex-row justify-start min-h-6">
+          <%= label_tag "group_ids_#{g.id}", g.name, class:"text-left" %>
+        </div>
+      <% end %>
+    </div>
+
     <legend class="font-bold text-4xl">
       Karty
     </legend>
+
+    <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 border border-green-700 rounded">
+      Utwórz nową kartę
+    </button>
+
   </fieldset>
 
   <div class="inline">

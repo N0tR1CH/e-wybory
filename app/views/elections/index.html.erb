@@ -15,4 +15,23 @@
   <% end %>
 
   <h2>Lista wyborów</h2>
+  <div>
+    <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-32 overflow-x-visible overflow-y-auto py-2 px-4 w-full grid grid-cols-12 gap-x-2 min-h-6">
+      <div class="border-b-2 border-gray col-span-12 grid grid-cols-12 mb-4 pb-4 font-bold">
+        <div class="col-span-3 flex flex-row justify-start text-center">
+          ID
+        </div>
+        <div class="col-span-9 flex flex-row justify-start min-h-6 text-center">
+          Nazwa
+        </div>
+      </div>
+      <% Election.all.each do |e| %>
+        <div class="col-span-3 flex flex-row justify-start">
+          <%= e.id %>
+        </div>
+        <div class="col-span-9 flex flex-row justify-start min-h-6">
+          <%= e.name %>
+        </div>
+      <% end %>
+    </div>
 <% end %>

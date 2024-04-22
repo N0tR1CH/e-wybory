@@ -15,7 +15,7 @@ Rails.application.reloader.to_complete do
     classes = ApplicationController.descendants
 
     classes.each do |klass|
-      system("rails g rspec:swagger #{klass.to_s}")
+      system("rails g rspec:swagger #{klass.to_s} -f")
     end
 
     system('rake rswag:specs:swaggerize')

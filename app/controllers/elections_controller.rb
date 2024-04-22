@@ -41,9 +41,7 @@ class ElectionsController < ApplicationController
   end
 
   def parsed_group_ids
-    unparsed_group_ids = params[:election][:election_groups][:group_id]
-    unparsed_group_ids.select { |group| group unless group.blank? || group == '' }
-    unparsed_group_ids
+     params[:election][:election_groups].map(&:to_i)
   end
 
   def create_election
