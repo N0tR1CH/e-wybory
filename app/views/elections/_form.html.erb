@@ -1,3 +1,4 @@
+<% is_edit = is_edit.presence || false %>
 <%= form_with(model: election, class: "contents") do |form| %>
   <% if election.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -13,7 +14,7 @@
 
   <fieldset>
     <legend class="font-bold text-4xl">
-      Wybory
+      <%= is_edit ? 'Edycja wyborów o id: ' + election.id.to_s : 'Nowe wybory' %>
     </legend>
 
     <div class="my-5">
@@ -47,7 +48,11 @@
       <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-32 overflow-x-visible overflow-y-auto py-2 px-4 w-full grid grid-cols-12 gap-x-2 min-h-6">
         <% Group.all.each do |g| %>
           <div class="col-span-1 flex flex-row justify-start">
-            <%= check_box_tag "election[election_groups][]", g.id, class:"self-center "%>
+            <% if election.groups.exists?(id: g.id) %>
+              <%= check_box_tag "election[election_groups][]", g.id, {:checked => "checked" }, class:"self-center" %>
+            <% else %>
+              <%= check_box_tag "election[election_groups][]", g.id, class:"self-center" %>
+            <% end %>
           </div>
           <div class="col-span-11 flex flex-row justify-start min-h-6">
             <%= label_tag "group_ids_#{g.id}", g.name, class:"text-left" %>
@@ -59,9 +64,9 @@
 
   <fieldset>
     <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-32 overflow-x-visible overflow-y-auto py-2 px-4 w-full grid grid-cols-12 gap-x-2 min-h-6">
-      <% ElectionSheet.all.each do |g| %>
+      <% ElectionsSheet.all.each do |g| %>
         <div class="col-span-1 flex flex-row justify-start">
-          <%= check_box_tag "election[election_groups][]", g.id, class:"self-center "%>
+          <%= check_box_tag "election[aaa][]", g.id, class:"self-center "%>
         </div>
         <div class="col-span-11 flex flex-row justify-start min-h-6">
           <%= label_tag "group_ids_#{g.id}", g.name, class:"text-left" %>
@@ -78,8 +83,9 @@
     </button>
 
   </fieldset>
+  <br>
 
   <div class="inline">
-    <%= form.submit 'Utwórz wybory', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit 'Zapisz', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "new_election_frame" do %>
   <div class="mx-auto md:w-2/3 w-full">
-    <%= render "form", election: @election, is_edit: false %>
+    <%= render "form", election: @election, is_edit: true %>
     <%=
       link_to(
         "Powrót do listy wyborów",

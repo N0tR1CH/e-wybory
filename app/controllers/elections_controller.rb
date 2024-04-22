@@ -12,7 +12,58 @@ class ElectionsController < ApplicationController
     authorize @election
   end
 
+  def edit
+    @election = Election.find(params[:id])
+
+    authorize @election
+  end
+
+  def update
+    return unless params[:election].present?
+
+    params[:election][:election_groups] ||= []
+
+    @election = Election.find(params[:id])
+    authorize @election
+
+    raise ActionController::BadRequest unless @election.update(election_params)
+
+    respond_to do |format|
+      if create_election
+        format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory' }
+        format.json { render :index, status: :created, location: @election }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @election.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @election = Election.find(params[:id])
+
+    authorize @election
+
+    ActiveRecord::Base.transaction do
+      success = @election.destroy
+
+      raise ActiveRecord::Rollback unless success
+    end
+
+    respond_to do |format|
+      format.html { redirect_to elections_path, notice: "Pomyślnie usunięto wybory o id: #{params[:id]}"}
+      format.json { render :index, status: :created, location: @election }
+    end
+  rescue ActiveRecord::Rollback
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @election.errors, status: :unprocessable_entity }
+    end
+  end
+
   def create
+    params[:election][:election_groups] ||= []
+
     @election = Election.new(election_params)
 
     authorize @election
@@ -28,7 +79,7 @@ class ElectionsController < ApplicationController
     end
   end
 
-  private
+private
 
   def election_params
     params.require(:election).permit(
@@ -39,6 +90,7 @@ class ElectionsController < ApplicationController
       election_groups_attributes: [:group_id]
     )
   end
+
 
   def parsed_group_ids
      params[:election][:election_groups].map(&:to_i)
