@@ -51,6 +51,7 @@ admin.update!(
   role: Role.find_by(name: 'admin')
 )
 
+
 # GROUP SEED
 
 
@@ -69,9 +70,90 @@ UserGroup.create(user_id: User.find_by(email: 'email6@mail.com').id, group_id:)
 
 group_id = Group.find_by(name: 'Akwareliści').id
 
+UserGroup.create(user_id: User.find_by(email: 'admin@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email1@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email2@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email3@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email4@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email5@mail.com').id, group_id:)
 UserGroup.create(user_id: User.find_by(email: 'email6@mail.com').id, group_id:)
+
+# ELECTION SEED
+
+election = Election.create(
+  name: 'Wybory seedowe',
+  description: 'Wybierz najlepsze nasiona dla plebiscytu stacji TGF11'
+)
+
+ElectionGroup.create(election_id: election.id, group_id: group_id)
+
+# SHEET 1
+
+sheet = ElectionsSheet.create(
+  election_id: election.id,
+  name: 'Nasiona rzodkiewki',
+  description: 'Wybierz swoje ulubione nasiona rzodkiewki',
+  max_votes_per_user: 1,
+  max_votes_per_candidate: 1,
+  requires_all_votes_spent: true
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Rzodkiewka Opolanka',
+  votes: 0
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Rzodkiewka Krakowianka',
+  votes: 0
+)
+
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Rzodkiewka Rampuch',
+  votes: 0
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Rzodkiew Kulata Cerna',
+  votes: 0
+)
+
+# SHEET 2
+
+sheet = ElectionsSheet.create(
+  election_id: election.id,
+  name: 'Nasiona proso',
+  description: 'Wybierz swoje ulubione nasiona proso.',
+  max_votes_per_user: 3,
+  max_votes_per_candidate: 3,
+  requires_all_votes_spent: true
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Proso zwyczajne',
+  votes: 0
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Proso Fioletowe',
+  votes: 0
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Proso Żółte',
+  votes: 0
+)
+
+ElectionsSheetsCandidate.create(
+  elections_sheet_id: sheet.id,
+  name: 'Proso Rózgowate',
+  votes: 0
+)
