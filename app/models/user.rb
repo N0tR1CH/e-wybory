@@ -7,6 +7,7 @@ class User < ApplicationRecord
   belongs_to :role
   has_many :user_groups
   has_many :groups, through: :user_groups
+  has_many :elections_sheets_users_votes
 
   before_validation do
     self.role ||= Role.find_by(name: 'user')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_131335) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_21_214231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,36 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_131335) do
     t.datetime "date_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "elections_sheets", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "max_votes_per_user"
+    t.integer "max_votes_per_candidate"
+    t.boolean "requires_all_votes_spent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "election_id", null: false
+    t.index ["election_id"], name: "index_elections_sheets_on_election_id"
+  end
+
+  create_table "elections_sheets_candidates", force: :cascade do |t|
+    t.string "name"
+    t.bigint "votes"
+    t.bigint "elections_sheet_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["elections_sheet_id"], name: "index_elections_sheets_candidates_on_elections_sheet_id"
+  end
+
+  create_table "elections_sheets_users_votes", primary_key: ["elections_sheet_id", "user_id"], force: :cascade do |t|
+    t.bigint "elections_sheet_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["elections_sheet_id"], name: "index_elections_sheets_users_votes_on_elections_sheet_id"
+    t.index ["user_id"], name: "index_elections_sheets_users_votes_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -71,6 +101,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_131335) do
 
   add_foreign_key "election_groups", "elections"
   add_foreign_key "election_groups", "groups"
+  add_foreign_key "elections_sheets", "elections"
+  add_foreign_key "elections_sheets_candidates", "elections_sheets"
+  add_foreign_key "elections_sheets_users_votes", "elections_sheets"
+  add_foreign_key "elections_sheets_users_votes", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
   add_foreign_key "users", "roles"
