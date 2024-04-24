@@ -27,14 +27,14 @@ class ElectionsController < ApplicationController
     authorize @election
 
     respond_to do |format|
-        format.html { render :json => params }
+      format.html { render json: params }
     end
 
-    #existing_sheets = @election.elections_sheets.where(id: params[:election][])
-#
-    #raise ActionController::BadRequest unless @election.update(election_params)
-#
-    #respond_to do |format|
+    # existing_sheets = @election.elections_sheets.where(id: params[:election][])
+    #
+    # raise ActionController::BadRequest unless @election.update(election_params)
+    #
+    # respond_to do |format|
     #  if create_election
     #    format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory' }
     #    format.json { render :index, status: :created, location: @election }
@@ -42,7 +42,7 @@ class ElectionsController < ApplicationController
     #    format.html { render :new, status: :unprocessable_entity }
     #    format.json { render json: @election.errors, status: :unprocessable_entity }
     #  end
-    #end
+    # end
   end
 
   def destroy
@@ -57,7 +57,7 @@ class ElectionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to elections_path, notice: "Pomyślnie usunięto wybory o id: #{params[:id]}"}
+      format.html { redirect_to elections_path, notice: "Pomyślnie usunięto wybory o id: #{params[:id]}" }
       format.json { render :index, status: :created, location: @election }
     end
   rescue ActiveRecord::Rollback
@@ -85,7 +85,7 @@ class ElectionsController < ApplicationController
     end
   end
 
-private
+  private
 
   def election_params
     params.require(:election).permit(
@@ -97,9 +97,8 @@ private
     )
   end
 
-
   def parsed_group_ids
-     params[:election][:election_groups].map(&:to_i)
+    params[:election][:election_groups].map(&:to_i)
   end
 
   def create_election
