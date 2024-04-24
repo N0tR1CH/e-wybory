@@ -97,9 +97,9 @@
               <%= ff.label "[#{index}][requires_all_votes_spent]", 'Wymagaj rozdania wszystkich głosów', class: "block w-full"%>
               <div class="flex flex-row content-start">
                 <% if sheet.requires_all_votes_spent %>
-                  <%= check_box_tag "election[elections_sheets][#{index}][requires_all_votes_spent]", {:checked => "checked" }%>
+                  <%= check_box_tag "election[elections_sheets][[#{index}][requires_all_votes_spent]]", {:checked => "checked" }%>
                 <% else %>
-                  <%= check_box_tag "election[elections_sheets][#{index}][requires_all_votes_spent]"%>
+                  <%= check_box_tag "election[elections_sheets][[#{index}][requires_all_votes_spent]]"%>
                 <% end %>
               </div>
             </div>
