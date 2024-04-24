@@ -26,17 +26,23 @@ class ElectionsController < ApplicationController
     @election = Election.find(params[:id])
     authorize @election
 
-    raise ActionController::BadRequest unless @election.update(election_params)
-
     respond_to do |format|
-      if create_election
-        format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory' }
-        format.json { render :index, status: :created, location: @election }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @election.errors, status: :unprocessable_entity }
-      end
+        format.html { render :json => params }
     end
+
+    #existing_sheets = @election.elections_sheets.where(id: params[:election][])
+#
+    #raise ActionController::BadRequest unless @election.update(election_params)
+#
+    #respond_to do |format|
+    #  if create_election
+    #    format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory' }
+    #    format.json { render :index, status: :created, location: @election }
+    #  else
+    #    format.html { render :new, status: :unprocessable_entity }
+    #    format.json { render json: @election.errors, status: :unprocessable_entity }
+    #  end
+    #end
   end
 
   def destroy

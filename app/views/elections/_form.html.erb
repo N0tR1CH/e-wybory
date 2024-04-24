@@ -1,4 +1,5 @@
 <% is_edit = is_edit.presence || false %>
+<% candidates_index = candidates_index.presence || 0 %>
 <% index = index.presence || 0 %>
 <%= form_with(model: election, class: "contents") do |form| %>
   <% if election.errors.any? %>
@@ -73,7 +74,7 @@
     <div id="elections_sheets_container">
       <% if election.elections_sheets.exists? %>
         <% election.elections_sheets.each do |sheet| %>
-          <div id="sheet_card_<%= index %>" class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
+          <div id="sheet_card_<%= index %>" data-idx="<%= index %>" class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
             <%= ff.hidden_field "[#{index}][id]", value: sheet.id %>
             <%= ff.hidden_field "[#{index}][removed]", value: false, class: "removed_input_hidden"%>
             <div class="my-5">
@@ -102,7 +103,28 @@
                 <% end %>
               </div>
             </div>
-            <button data-index="<%= index %>" class="remove-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Usuń</button>
+            <legend class="font-bold text-4xl">
+              Kandydaci
+            </legend>
+            <div class="candidates-container my-4">
+              <% if sheet.elections_sheets_candidates.exists? %>
+                <% candidates_index = 0 %>
+                <% sheet.elections_sheets_candidates.each do |candidate| %>
+                  <div class="grid grid-cols-4 gap-x-4 my-2">
+                    <%= ff.hidden_field "[#{index}][elections_sheets_candidates][#{candidates_index}][id]", value: candidate.id %>
+                    <%= ff.hidden_field "[#{index}][elections_sheets_candidates][#{candidates_index}][removed]", value: false, class: "removed-candidate-input-hidden"%>
+                    <%= ff.text_field "[#{index}][elections_sheets_candidates][#{candidates_index}][name]", value: candidate.name, class: "block col-span-3 self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" %>
+                    <button data-idx="<%= index %>" class="remove-candidate-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 col-span-1 my-2 text-white text-lg bold">Usuń</button>
+                  </div>
+                  <% candidates_index = candidates_index + 1 %>
+                <% end %>
+              <% end %>
+              <%= ff.hidden_field "[#{index}][candidates_idx]", value: candidates_index, class: "candidates-idx"%>
+            </div>
+            <div class="my-4">
+              <button data-idx="<%= index %>" class="create-candidate-button rounded-lg py-1 px-5 bg-green-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Dodaj kandydata</button>
+            </div>
+            <button data-idx="<%= index %>" class="remove-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Usuń</button>
           </div>
           <% index = index + 1 %>
         <% end %>
@@ -125,7 +147,7 @@
 
   <script>
       const create_sheet_html =
-          `<div class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
+          `<div data-idx="index" class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
             <div class="my-5">
               <label for="election[elections_sheets][index][name]">Nazwa</label>
               <input value="Nasiona proso" class="block w-full self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" type="text" name="election[elections_sheets][index][name]]" id="election[elections_sheets][index][name]">
@@ -148,13 +170,35 @@
                   <input type="checkbox" name="election[elections_sheets][index][requires_all_votes_spent]" id="election_elections_sheets_index_requires_all_votes_spent" value="1">
               </div>
             </div>
+            <legend class="font-bold text-4xl">
+              Kandydaci
+            </legend>
+            <div class="candidates-container my-4">
+                <input class="candidates-idx" autocomplete="off" type="hidden" name="election[elections_sheets][[index][candidates_idx]]" id="election_elections_sheets_[index][candidates_idx]">
+            </div>
+            <div class="my-4">
+              <button data-idx="1" class="create-candidate-button rounded-lg py-1 px-5 bg-green-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Dodaj kandydata</button>
+            </div>
             <button class="reject-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Usuń</button>
-          </div>`
+          </div>`;
+
+      const create_candidate_html =
+        `
+          <div class="grid grid-cols-4 gap-x-4 my-2">
+              <input class="block col-span-3 self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" type="text" name="election[elections_sheets][[index][elections_sheets_candidates][candidates_index][name]]" id="election_elections_sheets_[index][elections_sheets_candidates][candidates_index][name]">
+              <button data-idx="0" class="reject-candidate-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 col-span-1 my-2 text-white text-lg bold">Usuń</button>
+            </div>
+        `;
+
 
       const last_sheet_index_el = document.getElementById("last_sheet_index");
       const create_sheet_btn = document.getElementById("create_sheet_btn");
-      const remove_buttons = Object.values(document.getElementsByClassName("remove-button"));
+      const create_candidate_buttons = Object.values(document.getElementsByClassName("create-candidate-button"));
+      const remove_sheet_buttons = Object.values(document.getElementsByClassName("remove-button"));
+      const remove_candidate_buttons = Object.values(document.getElementsByClassName("remove-candidate-button"));
       const sheets_container = document.getElementById("elections_sheets_container");
+
+
 
       create_sheet_btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -165,20 +209,53 @@
       });
 
       sheets_container.addEventListener('click', (e) => {
-          if (e.target.className.includes('reject-button')) {
+          //e.preventDefault();
+          if (e.target.className.includes('reject-button') || e.target.className.includes('reject-candidate-button')) {
               e.preventDefault();
               e.target.parentElement.remove();
           }
+
+          if(e.target.className.includes('remove-candidate-button'))
+          {
+              e.preventDefault();
+
+              const removed_input = e.target.parentElement.getElementsByClassName("removed-candidate-input-hidden")[0];
+              removed_input.value = true;
+
+              e.target.parentElement.style.display = "none";
+          }
+
+          if(e.target.className.includes('remove-button'))
+          {
+              e.preventDefault();
+
+              const removed_input = e.target.parentElement.getElementsByClassName("removed_input_hidden")[0];
+              removed_input.value = true;
+
+              e.target.parentElement.style.display = "none";
+          }
+
+          if(e.target.className.includes('create-candidate-button'))
+          {
+              e.preventDefault();
+
+              const candidates_container = e.target.parentElement.previousElementSibling;
+              const elections_sheet_card = candidates_container.parentElement;
+              const index = elections_sheet_card.getAttribute("data-idx");
+
+              const candidates_index_input = candidates_container.getElementsByClassName("candidates-idx")[0];
+
+              console.log(candidates_container);
+              const html = create_candidate_html.replaceAll("candidates_index", candidates_index_input.value).replaceAll("index", index);
+              console.log(html);
+
+              candidates_index_input.value = candidates_index_input.value + 1;
+
+              candidates_container.innerHTML += html;
+          }
       });
 
-      remove_buttons.forEach(btn => btn.addEventListener('click', (e) => {
-          e.preventDefault();
 
-          const removed_input = e.target.parentElement.getElementsByClassName("removed_input_hidden")[0];
-          removed_input.value = true;
-
-          e.target.parentElement.style.display = "none";
-      }))
 
   </script>
 <% end %>
