@@ -41,7 +41,12 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
   end
 
   def destroy?
+    return false unless user.present?
 
+    user.admin? || user.moderator?
+  end
+
+  def election_sheet_field?
     return false unless user.present?
 
     user.admin? || user.moderator?

@@ -1,7 +1,7 @@
 <% is_edit = is_edit.presence || false %>
 <% candidates_index = candidates_index.presence || 0 %>
 <% index = index.presence || 0 %>
-<%= form_with(model: election, class: "contents") do |form| %>
+<%= form_with(model: election, data: { controller: "render-response" }, class: "contents") do |form| %>
   <% if election.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(election.errors.count, "error") %> prohibited this role from being saved:</h2>
@@ -28,13 +28,18 @@
     <%= render 'group_fields', form: form %>
   </fieldset>
 
+  <br/>
+
   <!-- KARTY WYBORÓW -->
-  <%= form.fields_for :elections_sheets do |fff| %>
-    <fieldset>
-      <legend class="font-bold text-4xl">Karty</legend>
-    </fieldset>
-    <br>
-  <% end %>
+  <div id="election_sheets">
+    <%= render partial: 'elections/election_sheet', collection: @election.election_sheets %>
+  </div>
+
+  <div>
+    <%= button_tag "Dodaj Kartę", type: "button", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer", data: { action: "render-response#getElectionSheetPartial" } %>
+  </div>
+
+  <br/>
 
   <div class="inline">
     <%= form.submit 'Zapisz', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>

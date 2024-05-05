@@ -8,6 +8,9 @@ class ElectionsController < ApplicationController
   def new
     @election = Election.new
 
+    # election_sheets.build is needed to display form for election_sheets
+    @election.election_sheets.build
+
     authorize @election
   end
 
@@ -82,6 +85,11 @@ class ElectionsController < ApplicationController
     end
   end
 
+  def election_sheet_field
+    authorize Election
+    render layout: false
+  end
+
   private
 
   def election_params
@@ -90,7 +98,8 @@ class ElectionsController < ApplicationController
       :description,
       :date_from,
       :date_to,
-      group_ids: []
+      group_ids: [],
+      election_sheets_attributes: %i[id name]
     )
   end
 end

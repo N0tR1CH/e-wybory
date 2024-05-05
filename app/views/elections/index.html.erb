@@ -1,46 +1,46 @@
 <%= turbo_frame_tag "new_election_frame" do %>
   <% if policy(Election).new? %>
 
-  <h2>Lista wyborów</h2>
-  <div>
-    <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-[30rem] overflow-x-visible overflow-y-auto pb-2 px-4 w-full grid grid-cols-12 gap-x-2 gap-y-2 min-h-6">
-      <div class="border-b-2 border-gray col-span-12 grid grid-cols-12 py-2 font-bold">
-        <div class="col-span-2 flex flex-row justify-start">
-          ID
-        </div>
-        <div class="col-span-6 flex flex-row justify-start min-h-6">
-          Nazwa
-        </div>
-        <div class="col-span-4 flex flex-row justify-center min-h-6 ">
-          Akcje
-        </div>
-      </div>
-      <% if Election.exists? %>
-        <% Election.all.each do |e| %>
-          <div class="col-span-2 flex flex-row justify-start self-center">
-            <%= e.id %>
+    <h2>Lista wyborów</h2>
+    <div>
+      <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-[30rem] overflow-x-visible overflow-y-auto pb-2 px-4 w-full grid grid-cols-12 gap-x-2 gap-y-2 min-h-6">
+        <div class="border-b-2 border-gray col-span-12 grid grid-cols-12 py-2 font-bold">
+          <div class="col-span-2 flex flex-row justify-start">
+            ID
           </div>
-          <div class="col-span-6 flex flex-row justify-start self-center">
-            <%= e.name %>
+          <div class="col-span-6 flex flex-row justify-start min-h-6">
+            Nazwa
           </div>
-          <div class="col-span-4 flex flex-row justify-around self-center">
-            <%=
-              link_to(
-                "Edytuj",
-                edit_election_path(:id => e.id),
-                class: "rounded-lg py-1 px-5 bg-cyan-400 inline-block text-sm self-center h-8",
-              )
+          <div class="col-span-4 flex flex-row justify-center min-h-6 ">
+            Akcje
+          </div>
+        </div>
+        <% if Election.exists? %>
+          <% Election.all.each do |e| %>
+            <div class="col-span-2 flex flex-row justify-start self-center">
+              <%= e.id %>
+            </div>
+            <div class="col-span-6 flex flex-row justify-start self-center">
+              <%= e.name %>
+            </div>
+            <div class="col-span-4 flex flex-row justify-around self-center">
+              <%=
+                link_to(
+                  "Edytuj",
+                  edit_election_path(:id => e.id),
+                  class: "rounded-lg py-1 px-5 bg-cyan-400 inline-block text-sm self-center h-8",
+                )
               %>
-            <%= button_to "Usuń", e, :method => :delete, class: "rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-8" %>
+              <%= button_to "Usuń", e, :method => :delete, class: "rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-8" %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="col-span-12 flex flex-row justify-center text-gray italic">
+            Brak
           </div>
         <% end %>
-      <% else %>
-        <div class="col-span-12 flex flex-row justify-center text-gray italic">
-            Brak
-        </div>
-      <% end %>
+      </div>
     </div>
-  </div>
 
     <%=
       link_to(
