@@ -10,7 +10,6 @@
 
 # ROLE SEED
 
-
 Role.create_or_find_by(name: 'admin')
 Role.create_or_find_by(name: 'moderator')
 Role.create_or_find_by(name: 'user')
@@ -51,9 +50,7 @@ admin.update!(
   role: Role.find_by(name: 'admin')
 )
 
-
 # GROUP SEED
-
 
 group_id = Group.find_by(name: 'Białostoczanie').id
 
@@ -89,7 +86,7 @@ ElectionGroup.create(election_id: election.id, group_id: group_id)
 
 # SHEET 1
 
-sheet = ElectionsSheet.create(
+sheet = ElectionSheet.create(
   election_id: election.id,
   name: 'Nasiona rzodkiewki',
   description: 'Wybierz swoje ulubione nasiona rzodkiewki',
@@ -98,26 +95,25 @@ sheet = ElectionsSheet.create(
   requires_all_votes_spent: true
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Rzodkiewka Opolanka',
   votes: 0
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Rzodkiewka Krakowianka',
   votes: 0
 )
 
-
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Rzodkiewka Rampuch',
   votes: 0
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Rzodkiew Kulata Cerna',
   votes: 0
@@ -125,7 +121,7 @@ ElectionsSheetsCandidate.create(
 
 # SHEET 2
 
-sheet = ElectionsSheet.create(
+sheet = ElectionSheet.create(
   election_id: election.id,
   name: 'Nasiona proso',
   description: 'Wybierz swoje ulubione nasiona proso.',
@@ -134,25 +130,25 @@ sheet = ElectionsSheet.create(
   requires_all_votes_spent: true
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Proso zwyczajne',
   votes: 0
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Proso Fioletowe',
   votes: 0
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Proso Żółte',
   votes: 0
 )
 
-ElectionsSheetsCandidate.create(
+ElectionSheetCandidate.create(
   elections_sheet_id: sheet.id,
   name: 'Proso Rózgowate',
   votes: 0

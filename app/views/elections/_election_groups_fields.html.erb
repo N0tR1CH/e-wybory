@@ -1,0 +1,12 @@
+<legend class="font-bold text-4xl">
+  Grupy
+</legend>
+
+<div class="my-5 bg-white shadow rounded-md border border-gray-200 py-2 flex flex-col">
+  <%= form.collection_check_boxes :election_group_ids, Group.order(:name), :id, :name do |g| %>
+    <div>
+      <%= g.check_box %>
+      <%= g.label %>
+    </div>
+  <% end %>
+</div>
