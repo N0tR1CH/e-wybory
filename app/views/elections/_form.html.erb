@@ -14,90 +14,24 @@
     </div>
   <% end %>
 
-  <!-- WYBORY -->
   <fieldset>
-    <%= render 'election_fields' %>
+    <legend class="font-bold text-4xl">
+      <%= is_edit ? "Edycja wyborów o id: #{election.id.to_s}" : 'Nowe wybory' %>
+    </legend>
+    <%= render 'election_fields', form: form %>
   </fieldset>
 
   <br/>
 
-  <!-- GRUPY PRZYPISANE DO WYBORÓW -->
   <fieldset>
-    <%= render 'election_groups_fields' %>
+    <legend class="font-bold text-4xl">Grupy</legend>
+    <%= render 'group_fields', form: form %>
   </fieldset>
 
   <!-- KARTY WYBORÓW -->
   <%= form.fields_for :elections_sheets do |fff| %>
     <fieldset>
-      <legend class="font-bold text-4xl">
-        Karty
-      </legend>
-
-      <div id="elections_sheets_container">
-        <% if election.elections_sheets.exists? %>
-          <% election.elections_sheets.each do |sheet| %>
-            <div id="sheet_card_<%= index %>" data-idx="<%= index %>" class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
-              <%= fff.hidden_field "[#{index}][id]", value: sheet.id %>
-              <%= fff.hidden_field "[#{index}][removed]", value: false, class: "removed_input_hidden" %>
-              <div class="my-5">
-                <%= fff.label "[#{index}][name]", 'Nazwa' %>
-                <%= fff.text_field "[#{index}][name]", value: sheet.name, class: "block w-full self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" %>
-              </div>
-              <div class="my-5">
-                <%= fff.label "[#{index}][description]", 'Opis' %>
-                <%= fff.text_area "[#{index}][description]", value: sheet.description, class: "block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 min-h-[120px] max-h-64" %>
-              </div>
-              <div class="my-5">
-                <%= fff.label "[#{index}][max_votes_per_user]", 'Maksymalna ilość głosów per użytkownik' %>
-                <%= fff.number_field "[#{index}][max_votes_per_user]", value: sheet.max_votes_per_user, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-              </div>
-              <div class="my-5">
-                <%= fff.label "[#{index}][max_votes_per_candidate]", 'Maksymalna ilość głosów per kandydat' %>
-                <%= fff.number_field "[#{index}][max_votes_per_candidate]", value: sheet.max_votes_per_candidate, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-              </div>
-              <div class="my-5">
-                <%= fff.label "[#{index}][requires_all_votes_spent]", 'Wymagaj rozdania wszystkich głosów', class: "block w-full" %>
-                <div class="flex flex-row content-start">
-                  <% if sheet.requires_all_votes_spent %>
-                    <%= check_box_tag "election[elections_sheets][[#{index}][requires_all_votes_spent]]", { :checked => "checked" } %>
-                  <% else %>
-                    <%= check_box_tag "election[elections_sheets][[#{index}][requires_all_votes_spent]]" %>
-                  <% end %>
-                </div>
-              </div>
-              <legend class="font-bold text-4xl">
-                Kandydaci
-              </legend>
-              <div class="candidates-container my-4">
-                <% if sheet.elections_sheets_candidates.exists? %>
-                  <% candidates_index = 0 %>
-                  <% sheet.elections_sheets_candidates.each do |candidate| %>
-                    <div class="grid grid-cols-4 gap-x-4 my-2">
-                      <%= fff.hidden_field "[#{index}][elections_sheets_candidates][#{candidates_index}][id]", value: candidate.id %>
-                      <%= fff.hidden_field "[#{index}][elections_sheets_candidates][#{candidates_index}][removed]", value: false, class: "removed-candidate-input-hidden" %>
-                      <%= fff.text_field "[#{index}][elections_sheets_candidates][#{candidates_index}][name]", value: candidate.name, class: "block col-span-3 self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" %>
-                      <button data-idx="<%= index %>" class="remove-candidate-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 col-span-1 my-2 text-white text-lg bold">Usuń</button>
-                    </div>
-                    <% candidates_index = candidates_index + 1 %>
-                  <% end %>
-                <% end %>
-                <%= fff.hidden_field "[#{index}][candidates_idx]", value: candidates_index, class: "candidates-idx" %>
-              </div>
-              <div class="my-4">
-                <button data-idx="<%= index %>" class="create-candidate-button rounded-lg py-1 px-5 bg-green-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Dodaj
-                  kandydata
-                </button>
-              </div>
-              <button data-idx="<%= index %>" class="remove-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Usuń</button>
-            </div>
-            <% index = index + 1 %>
-          <% end %>
-        <% end %>
-        <input type="hidden" id="last_sheet_index" value="<%= index %>"/>
-      </div>
-      <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 border border-green-700 rounded" id="create_sheet_btn">
-        Utwórz nową kartę
-      </button>
+      <legend class="font-bold text-4xl">Karty</legend>
     </fieldset>
     <br>
   <% end %>
@@ -105,113 +39,4 @@
   <div class="inline">
     <%= form.submit 'Zapisz', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
-
-  <script>
-      const create_sheet_html =
-          `<div data-idx="index" class="my-5 bg-white shadow rounded-md border border-gray-200 overflow-x-visible overflow-y-auto py-2 px-4 w-full px-1/12">
-            <div class="my-5">
-              <label for="election[elections_sheets][index][name]">Nazwa</label>
-              <input value="Nasiona proso" class="block w-full self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" type="text" name="election[elections_sheets][index][name]]" id="election[elections_sheets][index][name]">
-            </div>
-            <div class="my-5">
-              <label for="election[elections_sheets][index][description]">Opis</label>
-              <textarea class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 min-h-[120px] max-h-64" name="election[elections_sheets][index][description]]" id="election[elections_sheets][index][description]"></textarea>
-            </div>
-            <div class="my-5">
-              <label for="election[elections_sheets][index][max_votes_per_user]">Maksymalna ilość głosów per użytkownik</label>
-              <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="election[elections_sheets][index][max_votes_per_user]" id="election[elections_sheets][index][max_votes_per_user]">
-            </div>
-            <div class="my-5">
-              <label for="election[elections_sheets][index][max_votes_per_candidate]">Maksymalna ilość głosów per kandydat</label>
-              <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" name="election[elections_sheets][index][max_votes_per_candidate]" id="election[elections_sheets][index][max_votes_per_candidate]">
-            </div>
-            <div class="my-5">
-              <label class="block w-full" for="election[elections_sheets][index][requires_all_votes_spent]">Wymagaj rozdania wszystkich głosów</label>
-              <div class="flex flex-row content-start">
-                  <input type="checkbox" name="election[elections_sheets][index][requires_all_votes_spent]" id="election_elections_sheets_index_requires_all_votes_spent" value="1">
-              </div>
-            </div>
-            <legend class="font-bold text-4xl">
-              Kandydaci
-            </legend>
-            <div class="candidates-container my-4">
-                <input class="candidates-idx" autocomplete="off" type="hidden" name="election[elections_sheets][[index][candidates_idx]]" id="election_elections_sheets_[index][candidates_idx]">
-            </div>
-            <div class="my-4">
-              <button data-idx="1" class="create-candidate-button rounded-lg py-1 px-5 bg-green-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Dodaj kandydata</button>
-            </div>
-            <button class="reject-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 w-full my-2 text-white text-lg bold">Usuń</button>
-          </div>`;
-
-      const create_candidate_html =
-          `
-          <div class="grid grid-cols-4 gap-x-4 my-2">
-              <input class="block col-span-3 self-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" type="text" name="election[elections_sheets][[index][elections_sheets_candidates][candidates_index][name]]" id="election_elections_sheets_[index][elections_sheets_candidates][candidates_index][name]">
-              <button data-idx="0" class="reject-candidate-button rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-12 col-span-1 my-2 text-white text-lg bold">Usuń</button>
-            </div>
-        `;
-
-
-      const last_sheet_index_el = document.getElementById("last_sheet_index");
-      const create_sheet_btn = document.getElementById("create_sheet_btn");
-      const create_candidate_buttons = Object.values(document.getElementsByClassName("create-candidate-button"));
-      const remove_sheet_buttons = Object.values(document.getElementsByClassName("remove-button"));
-      const remove_candidate_buttons = Object.values(document.getElementsByClassName("remove-candidate-button"));
-      const sheets_container = document.getElementById("elections_sheets_container");
-
-
-      create_sheet_btn.addEventListener('click', (e) => {
-          e.preventDefault();
-
-          last_sheet_index_el.value = last_sheet_index_el.value + 1;
-          sheets_container.innerHTML += create_sheet_html.replaceAll("index", last_sheet_index_el.value);
-
-      });
-
-      sheets_container.addEventListener('click', (e) => {
-          //e.preventDefault();
-          if (e.target.className.includes('reject-button') || e.target.className.includes('reject-candidate-button')) {
-              e.preventDefault();
-              e.target.parentElement.remove();
-          }
-
-          if (e.target.className.includes('remove-candidate-button')) {
-              e.preventDefault();
-
-              const removed_input = e.target.parentElement.getElementsByClassName("removed-candidate-input-hidden")[0];
-              removed_input.value = true;
-
-              e.target.parentElement.style.display = "none";
-          }
-
-          if (e.target.className.includes('remove-button')) {
-              e.preventDefault();
-
-              const removed_input = e.target.parentElement.getElementsByClassName("removed_input_hidden")[0];
-              removed_input.value = true;
-
-              e.target.parentElement.style.display = "none";
-          }
-
-          if (e.target.className.includes('create-candidate-button')) {
-              e.preventDefault();
-
-              const candidates_container = e.target.parentElement.previousElementSibling;
-              const elections_sheet_card = candidates_container.parentElement;
-              const index = elections_sheet_card.getAttribute("data-idx");
-
-              const candidates_index_input = candidates_container.getElementsByClassName("candidates-idx")[0];
-
-              console.log(candidates_container);
-              const html = create_candidate_html.replaceAll("candidates_index", candidates_index_input.value).replaceAll("index", index);
-              console.log(html);
-
-              candidates_index_input.value = candidates_index_input.value + 1;
-
-              candidates_container.innerHTML += html;
-          }
-      });
-
-
-  </script>
 <% end %>
