@@ -1,0 +1,21 @@
+<%=
+  fields_for(
+    "election[election_sheets_attributes][#{turbo_id_for(election_sheet)}][election_sheet_candidates_attributes][#{turbo_id_for(election_sheet_candidate)}]",
+    election_sheet_candidate
+  ) do |fff|
+%>
+  <fieldset id="<%= turbo_id_for(election_sheet_candidate) %>" class="my-5 bg-white shadow rounded-md border border-gray-200 py-8 px-4 flex flex-col gap-y-4">
+    <Legend class="text-3xl font-bold">Kandydat</Legend>
+    <div class="flex flex-col">
+      <%= fff.label :name, "Nazwa" %>
+      <%= fff.text_field :name %>
+    </div>
+
+    <div class="flex flex-col">
+      <%= fff.label :votes, "Liczba głosów" %>
+      <%= fff.number_field :votes %>
+    </div>
+
+    <%= fff.hidden_field :id %>
+  </fieldset>
+<% end %>

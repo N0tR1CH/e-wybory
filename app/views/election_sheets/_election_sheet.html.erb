@@ -28,6 +28,22 @@
       </div>
     </div>
 
+    <!-- KANDYDACI -->
+    <div>
+      <div id="election_sheet<%= turbo_id_for(election_sheet) %>_candidates">
+        <%= render partial: 'election_sheet_candidates/election_sheet_candidate', collection: election_sheet.election_sheet_candidates, locals: { election_sheet: election_sheet } %>
+      </div>
+
+      <%=
+        link_to(
+          "Dodaj Kandydata",
+          new_election_sheet_candidate_path(election_sheet_id: turbo_id_for(election_sheet)),
+          data: { turbo_stream: true },
+          class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
+        )
+      %>
+    </div>
+
     <%=
       button_tag(
         "Usuń Kartę",

@@ -7,7 +7,7 @@ class ElectionsController < ApplicationController
 
   def new
     @election = Election.new
-    @election.election_sheets.build
+    @election.election_sheets.build.election_sheet_candidates.build
 
     authorize @election
   end
@@ -70,7 +70,15 @@ class ElectionsController < ApplicationController
       :date_from,
       :date_to,
       group_ids: [],
-      election_sheets_attributes: %i[id name description max_votes_per_user max_votes_per_candidate requires_all_votes_spent]
+      election_sheets_attributes: [
+        :id,
+        :name,
+        :description,
+        :max_votes_per_user,
+        :max_votes_per_candidate,
+        :requires_all_votes_spent,
+        { election_sheet_candidates_attributes: %i[id name votes] }
+      ]
     )
   end
 end

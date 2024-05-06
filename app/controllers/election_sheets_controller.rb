@@ -1,8 +1,10 @@
 class ElectionSheetsController < ApplicationController
   def new
     authorize ElectionSheet
+    election_sheet = ElectionSheet.new
+    election_sheet.election_sheet_candidates.build
     render turbo_stream: turbo_stream.append('election_sheets', partial: 'election_sheets/election_sheet',
-                                             locals: { election_sheet: ElectionSheet.new })
+                                             locals: { election_sheet: election_sheet })
   end
 
   def destroy

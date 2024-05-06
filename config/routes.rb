@@ -3,7 +3,10 @@
 require 'rswag/ui/engine'
 
 Rails.application.routes.draw do
+  get 'election_sheet_candidates/new'
+  get 'election_sheet_candidates/destroy'
   resources :election_sheets, only: %i[new destroy]
+  resources :election_sheet_candidates, only: %i[new destroy]
 
   root to: 'welcome#index'
 
