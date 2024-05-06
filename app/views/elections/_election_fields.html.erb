@@ -1,0 +1,18 @@
+<div class="my-5">
+  <%= form.label :name, 'Nazwa' %>
+  <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5">
+  <%= form.label :description, 'Opis' %>
+  <%= form.text_area :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full min-h-[120px] max-h-64" %>
+</div>
+
+<div class="my-5">
+  <%= form.label :date_from, 'Czas rozpoczęcia wyborów' %>
+  <%= form.datetime_field :date_from, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+</div>
+<div class="my-5">
+  <%= form.label :date_to, 'Czas zakończenia wyborów' %>
+  <%= form.datetime_field :date_to, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+</div>

@@ -14,6 +14,9 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    'hidden'
+  ],
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
