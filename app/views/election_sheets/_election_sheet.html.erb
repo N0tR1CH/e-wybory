@@ -29,18 +29,9 @@
     </div>
 
     <%=
-      link_to(
-        "Dodaj Kandydata",
-        new_election_sheet_candidate_path,
-        data: { turbo_stream: true },
-        class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
-      )
-    %>
-
-    <%=
       button_tag(
         "Usuń Kartę",
-        formaction: election_sheet_path(turbo_id_for(election_sheet, id_or_hash: true)),
+        formaction: election_sheet_path(turbo_id_for(election_sheet)),
         formmethod: :delete, class: "rounded-lg py-3 px-5 bg-red-300 text-white inline-block font-medium cursor-pointer float-right"
       )
     %>

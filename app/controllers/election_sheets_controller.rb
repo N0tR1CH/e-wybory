@@ -6,13 +6,13 @@ class ElectionSheetsController < ApplicationController
   end
 
   def destroy
-    @election_sheet = ElectionSheet.find(params[:id])
-    authorize @election_sheet
-    @election_sheet.destroy
+    election_sheet = ElectionSheet.find(params[:id])
+    authorize election_sheet
+    election_sheet.destroy
   rescue ActiveRecord::RecordNotFound
-    @election_sheet = params[:id]
+    election_sheet = ElectionSheet.new(id: params[:id])
     authorize ElectionSheet
   ensure
-    render turbo_stream: turbo_stream.remove(@election_sheet)
+    render turbo_stream: turbo_stream.remove(election_sheet.id)
   end
 end
