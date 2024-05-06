@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "new_election_frame" do %>
-  <% if policy(Election).new? %>
+  <% if policy(Election).index? %>
 
     <h2>Lista wyborów</h2>
     <div>
@@ -17,22 +17,30 @@
         </div>
         <% if Election.exists? %>
           <% Election.all.each do |e| %>
+            <% can_vote = policy(Election).vote?(e.id) %>
             <div class="col-span-2 flex flex-row justify-start self-center">
               <%= e.id %>
             </div>
-            <div class="col-span-6 flex flex-row justify-start self-center">
+            <div class="<%= can_vote ? 'col-span-4' : 'col-span-6' %> flex flex-row justify-start self-center">
               <%= e.name %>
             </div>
-            <div class="col-span-4 flex flex-row justify-around self-center">
-              <%=
-                link_to(
-                  "Edytuj",
-                  edit_election_path(:id => e.id),
-                  class: "rounded-lg py-1 px-5 bg-cyan-400 inline-block text-sm self-center h-8",
-                )
-              %>
-              <%= button_to "Usuń", e, :method => :delete, class: "rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-8" %>
-            </div>
+              <div class="<%= can_vote ? 'col-span-6' : 'col-span-4'  %> flex flex-row justify-around self-center">
+                <% if can_vote %>
+                  <%= button_to "Głosuj", e, :method => :delete, class: "rounded-lg py-1 px-5 bg-green-400 inline-block text-sm self-center h-8" %>
+                <% end %>
+                <% if policy(Election).new? %>
+                  <%=
+                    link_to(
+                      "Edytuj",
+                      edit_election_path(:id => e.id),
+                      class: "rounded-lg py-1 px-5 bg-cyan-400 inline-block text-sm self-center h-8",
+                    )
+                  %>
+                <% end %>
+                <% if policy(Election).destroy? %>
+                  <%= button_to "Usuń", e, :method => :delete, class: "rounded-lg py-1 px-5 bg-rose-400 inline-block text-sm self-center h-8" %>
+                <% end %>
+              </div>
           <% end %>
         <% else %>
           <div class="col-span-12 flex flex-row justify-center text-gray italic">
@@ -41,14 +49,15 @@
         <% end %>
       </div>
     </div>
-
-    <%=
-      link_to(
-        "Nowe wybory",
-        new_election_path,
-        class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium",
-        data: { turbo_frame: "new_elections_frame" }
-      )
-    %>
+    <% if policy(Election).new? %>
+      <%=
+        link_to(
+          "Nowe wybory",
+          new_election_path,
+          class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium",
+          data: { turbo_frame: "new_elections_frame" }
+        )
+      %>
+    <% end %>
   <% end %>
 <% end %>

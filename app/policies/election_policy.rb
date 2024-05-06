@@ -7,15 +7,22 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
         scope.all
       else
         # TODO: Users should only see elections they are eligible to vote in
-        []
+        scope.joins(groups: :users).where(users: { id: user.id }).distinct
       end
     end
   end
 
-  def index?
-    return false unless user.present?
+  def vote?(elections_id)
+    election = Election.find(elections_id)
+    election_sheet_ids = election.election_sheets.pluck(:id)
+    election_sheets_voted_count = ElectionSheetUserVote.where(election_sheet_id: election_sheet_ids, user: user).count
 
-    user.admin? || user.moderator?
+    election_sheet_ids.count != election_sheets_voted_count
+  end
+
+  def index?
+    return user.present?
+
   end
 
   def new?
