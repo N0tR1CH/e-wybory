@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_05_160725) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_06_144214) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,18 +26,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_05_160725) do
   create_table "election_sheet_candidates", force: :cascade do |t|
     t.string "name"
     t.bigint "votes"
-    t.bigint "elections_sheet_id", null: false
+    t.bigint "election_sheet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["elections_sheet_id"], name: "index_election_sheet_candidates_on_elections_sheet_id"
+    t.index ["election_sheet_id"], name: "index_election_sheet_candidates_on_election_sheet_id"
   end
 
-  create_table "election_sheet_user_votes", primary_key: ["elections_sheet_id", "user_id"], force: :cascade do |t|
-    t.bigint "elections_sheet_id", null: false
+  create_table "election_sheet_user_votes", primary_key: ["election_sheet_id", "user_id"], force: :cascade do |t|
+    t.bigint "election_sheet_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["elections_sheet_id"], name: "index_election_sheet_user_votes_on_elections_sheet_id"
+    t.index ["election_sheet_id"], name: "index_election_sheet_user_votes_on_election_sheet_id"
     t.index ["user_id"], name: "index_election_sheet_user_votes_on_user_id"
   end
 
@@ -101,8 +101,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_05_160725) do
 
   add_foreign_key "election_groups", "elections"
   add_foreign_key "election_groups", "groups"
-  add_foreign_key "election_sheet_candidates", "election_sheets", column: "elections_sheet_id"
-  add_foreign_key "election_sheet_user_votes", "election_sheets", column: "elections_sheet_id"
+  add_foreign_key "election_sheet_candidates", "election_sheets"
+  add_foreign_key "election_sheet_user_votes", "election_sheets"
   add_foreign_key "election_sheet_user_votes", "users"
   add_foreign_key "election_sheets", "elections"
   add_foreign_key "user_groups", "groups"

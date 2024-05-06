@@ -31,13 +31,13 @@
   <!-- KARTY WYBORÓW -->
   <div>
     <div id="election_sheets">
-      <%= render partial: 'elections/election_sheet', collection: @election.election_sheets %>
+      <%= render partial: 'election_sheets/election_sheet', collection: @election.election_sheets %>
     </div>
 
     <%=
       link_to(
         "Dodaj Kartę",
-        elections_election_sheet_field_path,
+        new_election_sheet_path,
         data: { turbo_stream: true },
         class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
       )

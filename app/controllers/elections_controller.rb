@@ -7,8 +7,6 @@ class ElectionsController < ApplicationController
 
   def new
     @election = Election.new
-
-    # election_sheets.build is needed to display form for election_sheets
     @election.election_sheets.build
 
     authorize @election
@@ -56,26 +54,11 @@ class ElectionsController < ApplicationController
     @election = Election.find(params[:id])
 
     authorize @election
-
-    ActiveRecord::Base.transaction do
-      success = @election.destroy
-
-      raise ActiveRecord::Rollback unless success
+    if @election.destroy
+      redirect_to elections_path, notice: 'Pomyślnie usunięto wybory.'
+    else
+      redirect_to elections_path, alert: 'Nie udało się usunąć wyborów.'
     end
-
-    respond_to do |format|
-      format.html { redirect_to elections_path, notice: "Pomyślnie usunięto wybory o id: #{params[:id]}" }
-      format.json { render :index, status: :created, location: @election }
-    end
-  rescue ActiveRecord::Rollback
-    respond_to do |format|
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @election.errors, status: :unprocessable_entity }
-    end
-  end
-
-  def election_sheet_field
-    authorize Election
   end
 
   private

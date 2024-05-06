@@ -3,9 +3,11 @@
 require 'rswag/ui/engine'
 
 Rails.application.routes.draw do
-  get 'welcome', to: 'welcome#index'
-  get 'elections/election_sheet_field', to: 'elections#election_sheet_field'
+  resources :election_sheets, only: %i[new destroy]
+
   root to: 'welcome#index'
+
+  resources :welcome, only: %i[index]
 
   resources :user_groups, :groups, :elections, :roles
 
