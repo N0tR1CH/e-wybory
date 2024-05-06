@@ -37,30 +37,19 @@ class ElectionsController < ApplicationController
   end
 
   def update
-    return unless params[:election].present?
-
-    params[:election][:election_groups] ||= []
-
     @election = Election.find(params[:id])
+
     authorize @election
 
     respond_to do |format|
-      format.html { render json: params }
+      if @election.update(election_params)
+        format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory.' }
+        format.json { render :index, status: :created, location: @election }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @election.errors, status: :unprocessable_entity }
+      end
     end
-
-    # existing_sheets = @election.elections_sheets.where(id: params[:election][])
-    #
-    # raise ActionController::BadRequest unless @election.update(election_params)
-    #
-    # respond_to do |format|
-    #  if create_election
-    #    format.html { redirect_to elections_path, notice: 'Pomyślnie zaktualizowano wybory' }
-    #    format.json { render :index, status: :created, location: @election }
-    #  else
-    #    format.html { render :new, status: :unprocessable_entity }
-    #    format.json { render json: @election.errors, status: :unprocessable_entity }
-    #  end
-    # end
   end
 
   def destroy
@@ -98,7 +87,7 @@ class ElectionsController < ApplicationController
       :date_from,
       :date_to,
       group_ids: [],
-      election_sheets_attributes: %i[id name]
+      election_sheets_attributes: %i[id name description max_votes_per_user max_votes_per_candidate requires_all_votes_spent]
     )
   end
 end
