@@ -1,6 +1,6 @@
 <%= fields_for "election[election_sheets_attributes][#{turbo_id_for(election_sheet)}]", election_sheet do |ff| %>
   <fieldset id="<%= turbo_id_for(election_sheet) %>" class="my-5 bg-white shadow rounded-md border border-gray-200 py-8 px-4 flex flex-col gap-y-4">
-    <Legend class="text-3xl font-bold">Karta</Legend>
+    <legend class="text-3xl font-bold float-left">Karta</legend>
     <div class="flex flex-col">
       <%= ff.label :name, "Nazwa" %>
       <%= ff.text_field :name %>

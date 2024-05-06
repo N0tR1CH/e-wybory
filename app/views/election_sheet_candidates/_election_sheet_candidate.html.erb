@@ -4,16 +4,11 @@
     election_sheet_candidate
   ) do |fff|
 %>
-  <fieldset id="<%= turbo_id_for(election_sheet_candidate) %>" class="my-5 bg-white shadow rounded-md border border-gray-200 py-8 px-4 flex flex-col gap-y-4">
-    <Legend class="text-3xl font-bold">Kandydat</Legend>
+  <fieldset id="<%= turbo_id_for(election_sheet_candidate) %>" class="my-5 bg-white shadow rounded-md border border-gray-200 pb-8 pt-4 px-4 flex flex-col gap-y-4">
+    <legend class="text-3xl font-bold float-left">Kandydat</legend>
     <div class="flex flex-col">
       <%= fff.label :name, "Nazwa" %>
       <%= fff.text_field :name %>
-    </div>
-
-    <div class="flex flex-col">
-      <%= fff.label :votes, "Liczba głosów" %>
-      <%= fff.number_field :votes %>
     </div>
 
     <%= fff.hidden_field :id %>

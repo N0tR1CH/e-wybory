@@ -1,8 +1,83 @@
-<div class="my-5 bg-white shadow rounded-md border border-gray-200 py-2 flex flex-col">
+<div class="my-5 bg-white shadow rounded-md border border-gray-200 py-2 flex flex-col max-h-[18.125rem] overflow-y-auto overflow-x-hidden" id="groups-container">
+  <div class="pt-2 pb-4">
+    <input type="text" class="w-4/5" placeholder="Wyszukaj grupę..." id="groups-container-searchbar">
+  </div>
   <%= form.collection_check_boxes :group_ids, Group.order(:name), :id, :name do |g| %>
-    <div>
-      <%= g.check_box %>
-      <%= g.label %>
+    <div class="grid grid-cols-6 gap-x-4 group" data-group-name="<%= g.object.name %>">
+      <%= g.check_box class: "col-span-1 justify-self-end align-middle self-center"%>
+      <%= g.label class: "col-span-5 text-start align-middle"%>
     </div>
   <% end %>
 </div>
+
+<script>
+    const groupsContainer = document.getElementById('groups-container');
+    const searchbar = document.getElementById('groups-container-searchbar');
+    const groups = groupsContainer.getElementsByClassName('group');
+
+    searchbar.addEventListener('input', () => {
+        const searchValue = searchbar.value.toLowerCase();
+
+        if(!searchValue)
+        {
+            Array.from(groups).forEach(el => el.classList.remove('hidden'));
+        }
+        else
+        {
+            Array.from(groups).forEach(el => {
+                const matching = fuzzysearch(
+                  searchValue,
+                  el.getAttribute('data-group-name').toLowerCase()
+                );
+
+                matching ? el.classList.remove('hidden') : el.classList.add('hidden')
+            })
+        }
+    });
+
+
+    // Thank You https://github.com/bevacqua/fuzzysearch
+
+    // The MIT License (MIT)
+    //
+    // Copyright © 2015 Nicolas Bevacqua
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of
+    // this software and associated documentation files (the "Software"), to deal in
+    // the Software without restriction, including without limitation the rights to
+    // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+    // the Software, and to permit persons to whom the Software is furnished to do so,
+    //   subject to the following conditions:
+    //
+    //   The above copyright notice and this permission notice shall be included in all
+    // copies or substantial portions of the Software.
+    //
+    //   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    // FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    function fuzzysearch (needle, haystack) {
+        var hlen = haystack.length;
+        var nlen = needle.length;
+        if (nlen > hlen) {
+            return false;
+        }
+        if (nlen === hlen) {
+            return needle === haystack;
+        }
+        outer: for (var i = 0, j = 0; i < nlen; i++) {
+            var nch = needle.charCodeAt(i);
+            while (j < hlen) {
+                if (haystack.charCodeAt(j++) === nch) {
+                    continue outer;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+</script>

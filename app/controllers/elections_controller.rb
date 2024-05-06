@@ -77,7 +77,7 @@ class ElectionsController < ApplicationController
         :max_votes_per_user,
         :max_votes_per_candidate,
         :requires_all_votes_spent,
-        { election_sheet_candidates_attributes: %i[id name votes] }
+        { election_sheet_candidates_attributes: %i[id name] }
       ]
     )
   end
