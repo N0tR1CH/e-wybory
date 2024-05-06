@@ -87,7 +87,6 @@ class ElectionsController < ApplicationController
 
   def election_sheet_field
     authorize Election
-    render layout: false
   end
 
   private
