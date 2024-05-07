@@ -96,25 +96,25 @@ sheet = ElectionSheet.create(
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Rzodkiewka Opolanka',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Rzodkiewka Krakowianka',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Rzodkiewka Rampuch',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Rzodkiew Kulata Cerna',
   votes: 0
 )
@@ -131,25 +131,25 @@ sheet = ElectionSheet.create(
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Proso zwyczajne',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Proso Fioletowe',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Proso Żółte',
   votes: 0
 )
 
 ElectionSheetCandidate.create(
-  elections_sheet_id: sheet.id,
+  election_sheet_id: sheet.id,
   name: 'Proso Rózgowate',
   votes: 0
 )
