@@ -71,6 +71,7 @@ class ElectionsController < ApplicationController
 
   def set_election
     @election = Election.find(params[:id])
+    @user = current_user
   end
 
   def election_params
