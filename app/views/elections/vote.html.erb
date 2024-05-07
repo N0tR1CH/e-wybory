@@ -1,0 +1,42 @@
+<%= turbo_frame_tag "content" do %>
+  <h2>Głosowanie</h2>
+  <h3><%= @election.name %></h3>
+
+  <div>
+    <% @election.election_sheets.each_with_index do |election_sheet, index| %>
+      <div class="my-5 bg-white shadow rounded-md border border-gray-200 p-4 flex flex-col justify-center gap-y-4">
+        <h3 class="m-0 p-0">Karta nr. <%= index + 1 %></h3>
+
+        <h4 class="m-0 p-0"><%= election_sheet.name %></h4>
+
+        <p><%= election_sheet.description %></p>
+
+        <p>Do wykorzystania: <span><%= election_sheet.max_votes_per_user %></span> głosów.</p>
+
+        <%= form_with(url: vote_election_sheet_path(election_sheet)) do |form| %>
+          <div class="my-4">
+            <% election_sheet.election_sheet_candidates.each do |candidate| %>
+              <div class="flex justify-between gap-x-4 my-4 w-4/5">
+                <%= candidate.name %>
+                <%= form.hidden_field :election_candidate_id, value: candidate.id, multiple: true %>
+                <%= form.number_field :votes, min: 0, class: "form-input", multiple: true %>
+              </div>
+            <% end %>
+          </div>
+          <%= form.submit "Oddaj głos w tej karcie", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer" %>
+        <% end %>
+      </div>
+      </div>
+    <% end %>
+    </div>
+
+    <%=
+      link_to(
+        "Powrót do listy wyborów",
+        elections_path,
+        class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium",
+        data: { turbo_frame: "new_elections_frame" }
+      )
+    %>
+
+<% end %>
