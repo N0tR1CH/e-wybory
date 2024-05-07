@@ -8,4 +8,8 @@ class ElectionSheetCandidatePolicy < ApplicationPolicy
   def new?
     true
   end
+
+  def destroy?
+    true
+  end
 end
