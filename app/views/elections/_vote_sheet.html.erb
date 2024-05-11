@@ -11,9 +11,26 @@
 
     <p><%= election_sheet.description %></p>
 
-    <p>Do wykorzystania: <span><%= election_sheet.max_votes_per_user %></span> głosów.</p>
+    <span>Do wykorzystania: <span><%= election_sheet.max_votes_per_user %></span> głosów.</span>
+    <span>Maksymalna ilość głosów na kandydata: <span><%= election_sheet.max_votes_per_candidate %></span> głosów.</span>
+    <% if election_sheet.requires_all_votes_spent %>
+      <span>Wymagane jest wydanie wszystkich głosów</span>
+    <% end %>
 
-    <%= form_with(url: vote_election_sheet_path(election_sheet)) do |form| %>
+    <% unless validation_error.zero? %>
+      <p class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 ">
+        <% case validation_error
+          when 1 %>
+            Wydano w sumie więcej głosów niż <%= election_sheet.max_votes_per_user %>
+          <% when 2 %>
+            Wydano więcej głosów na jednego kandydata niż <%= election_sheet.max_votes_per_candidate %>
+          <% when 3 %>
+            Należy wydać dokładnie <%= election_sheet.max_votes_per_user %> głosów
+        <% end %>
+      </p>
+    <% end %>
+
+    <%= form_with(url: vote_election_sheet_path(election_sheet), class: 'py-2') do |form| %>
       <div class="my-4">
         <% election_sheet.election_sheet_candidates.each do |candidate| %>
           <div class="flex justify-between gap-x-4 my-4 w-4/5">

@@ -5,7 +5,16 @@
   <div>
     <% @election.election_sheets.each_with_index do |election_sheet, index| %>
       <% sheet_has_been_voted = election_sheet.election_sheet_user_votes.exists?(user_id: @user.id) %>
-        <%= render partial: 'elections/vote_sheet', locals: {election_sheet: election_sheet, index: index, sheet_has_been_voted: sheet_has_been_voted } %>
+        <%= render(
+            partial: 'elections/vote_sheet',
+            locals: {
+              election_sheet: election_sheet,
+              index: index,
+              sheet_has_been_voted: sheet_has_been_voted,
+              validation_error: 0
+            }
+        )
+        %>
     <% end %>
     </div>
 
