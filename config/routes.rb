@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :elections do
     member do
       get :vote
+      get :results
     end
   end
 

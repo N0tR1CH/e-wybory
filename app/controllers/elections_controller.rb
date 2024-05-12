@@ -1,5 +1,5 @@
 class ElectionsController < ApplicationController
-  before_action :set_election, only: %i[edit update destroy vote]
+  before_action :set_election, only: %i[edit update destroy vote results]
 
   def index
     @elections = Election.all
@@ -65,6 +65,11 @@ class ElectionsController < ApplicationController
 
   def vote
     authorize @election
+  end
+
+  def results
+    authorize @election
+
   end
 
   private

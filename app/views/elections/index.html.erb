@@ -25,6 +25,15 @@
               <%= e.name %>
             </div>
             <div class="<%= can_vote ? 'col-span-6' : 'col-span-4' %> flex flex-row justify-around self-center">
+              <% if policy(e).results? %>
+                <%=
+                  link_to(
+                    "Wyniki",
+                    results_election_path(id: e.id),
+                    class: "rounded-lg py-1 px-5 bg-green-100 border-green-400 inline-block text-sm self-center h-8"
+                  )
+                %>
+              <% end %>
               <% if can_vote %>
                 <%=
                   link_to(
