@@ -29,6 +29,9 @@ gem 'stimulus-rails'
 # Rails requestjs
 gem 'requestjs-rails'
 
+# Font Awesome
+gem "font-awesome-sass"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
