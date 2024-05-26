@@ -1,4 +1,6 @@
 class ElectionsController < ApplicationController
+  before_action :set_election, only: %i[edit update destroy vote results]
+
   def index
     @elections = Election.all
 
@@ -61,7 +63,21 @@ class ElectionsController < ApplicationController
     end
   end
 
+  def vote
+    authorize @election
+  end
+
+  def results
+    authorize @election
+
+  end
+
   private
+
+  def set_election
+    @election = Election.find(params[:id])
+    @user = current_user
+  end
 
   def election_params
     params.require(:election).permit(

@@ -12,10 +12,9 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
     end
   end
 
-  def vote?(elections_id)
-    election = Election.find(elections_id)
+  def vote?
     election_sheet_ids = election.election_sheets.pluck(:id)
-    election_sheets_voted_count = ElectionSheetUserVote.where(election_sheet_id: election_sheet_ids, user: user).count
+    election_sheets_voted_count = ElectionSheetUserVote.where(election_sheet_id: election_sheet_ids, user:).count
 
     election_sheet_ids.count != election_sheets_voted_count
   end
@@ -57,5 +56,21 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
     return false unless user.present?
 
     user.admin? || user.moderator?
+  end
+
+  def results?
+    return false unless user.present?
+
+    return true if user.admin? || user.moderator?
+
+    election_date_to = election.date_to || DateTime.new(1)
+
+    election.users.exists?(users: { id: user.id }) && election_date_to < DateTime.now
+  end
+
+  private
+
+  def election
+    record
   end
 end

@@ -5,14 +5,24 @@ require 'rswag/ui/engine'
 Rails.application.routes.draw do
   get 'election_sheet_candidates/new'
   get 'election_sheet_candidates/destroy'
-  resources :election_sheets, only: %i[new destroy]
+  resources :election_sheets, only: %i[new destroy] do
+    member do
+      post :vote, to: 'election_sheet_user_votes#create'
+    end
+  end
   resources :election_sheet_candidates, only: %i[new destroy]
 
   root to: 'welcome#index'
 
   resources :welcome, only: %i[index]
 
-  resources :user_groups, :groups, :elections, :roles
+  resources :user_groups, :groups, :roles
+  resources :elections do
+    member do
+      get :vote
+      get :results
+    end
+  end
 
   authenticate :user, ->(u) { u.role.name == 'admin' } do
     mount Rswag::Ui::Engine, at: '/api-docs'
