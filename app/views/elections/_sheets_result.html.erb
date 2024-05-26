@@ -20,33 +20,31 @@
       <b><%= number_to_percentage(100 * voters / (total_voters_eligible * election_sheet.max_votes_per_user).to_d, precision: 2) %></b>
     </span>
 
-    <% unless total_votes_on_candidates.zero? %>
-      <div class="grid grid-cols-12 gap-y-2">
-        <div class="col-span-4 text-left font-bold pb-2">
-          Kandydat
-        </div>
-        <div class="col-span-2 text-left font-bold pb-2">
-          Głosy
-        </div>
-        <div class="col-span-6 text-left font-bold pb-2 text-center">
-          Procent
-        </div>
-        <% election_sheet.election_sheet_candidates.order(votes: :desc).each do |candidate| %>
-          <% percent = (100.0 * candidate.votes / total_votes_on_candidates).to_d %>
-          <div class="col-span-4 text-left">
-            <%= candidate.name %>
-          </div>
-          <div class="col-span-2 text-left">
-            <%= candidate.votes %>
-          </div>
-          <div class="col-span-1 text-left">
-            <b><%= number_to_percentage(percent, precision: 2) %></b>
-          </div>
-          <div class="col-span-5 flex flex-row justify-start">
-            <div class="h-8 bg-green-100 border border-green-300 hover:bg-green-200 " style="width: <%= percent %>%"></div>
-          </div>
-        <% end %>
+    <div class="grid grid-cols-12 gap-y-2">
+      <div class="col-span-4 text-left font-bold pb-2">
+        Kandydat
       </div>
-    <% end %>
+      <div class="col-span-2 text-left font-bold pb-2">
+        Głosy
+      </div>
+      <div class="col-span-6 text-left font-bold pb-2 text-center">
+        Procent
+      </div>
+      <% election_sheet.election_sheet_candidates.order(votes: :desc).each do |candidate| %>
+        <% percent = (100.0 * candidate.votes / total_votes_on_candidates).to_d %>
+        <div class="col-span-4 text-left">
+          <%= candidate.name %>
+        </div>
+        <div class="col-span-2 text-left">
+          <%= candidate.votes %>
+        </div>
+        <div class="col-span-1 text-left">
+          <b><%= number_to_percentage(percent, precision: 2) %></b>
+        </div>
+        <div class="col-span-5 flex flex-row justify-start">
+          <div class="h-8 bg-green-100 border border-green-300 hover:bg-green-200 " style="width: <%= percent %>%"></div>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

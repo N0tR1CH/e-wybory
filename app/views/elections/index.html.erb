@@ -32,7 +32,7 @@
               <% end %>
               <% if can_vote %>
                 <%= link_to vote_election_path(id: e.id) do %>
-                  <i class="fa-solid fa-check-to-slot"></i>
+                  <i class="fa-solid fa-check-to-slot" title="Głosowanie"></i>
                 <% end %>
               <% end %>
               <% if policy(Election).new? %>
