@@ -72,16 +72,17 @@
             Frekwencja w ramach tej karty wynosi:
             <b><%= number_to_percentage(100 * voters / total_voters_eligible.to_d, precision: 2) %></b><br/>
             Jest to <b><%= voters %></b> głosujących z <b><%= total_voters_eligible %></b> uprawnionych do głosowania
-          </span>
+            </span>
+            <br/>
 
-            <div class="grid grid-cols-12 gap-y-2 gap-x-1">
-              <div class="col-span-4 text-left font-bold pb-2">
+            <div class="flex flex-row text-left justify-around">
+              <div class="basis-1/3 font-bold pb-2">
                 Kandydat
               </div>
-              <div class="col-span-2 text-left font-bold pb-2">
+              <div class="basis-1/6 font-bold pb-2">
                 Głosy
               </div>
-              <div class="col-span-6 text-left font-bold pb-2 text-center">
+              <div class="basis-1/2 font-bold pb-2 ">
                 Procent
               </div>
               <% election_sheet.election_sheet_candidates.order(votes: :desc).each do |candidate| %>
