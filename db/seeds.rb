@@ -79,7 +79,9 @@ UserGroup.create(user_id: User.find_by(email: 'email6@mail.com').id, group_id:)
 
 election = Election.create(
   name: 'Wybory seedowe',
-  description: 'Wybierz najlepsze nasiona dla plebiscytu stacji TGF11'
+  description: 'Wybierz najlepsze nasiona dla plebiscytu stacji TGF11',
+  date_from: DateTime.new(2015, 6, 20, 16),
+  date_to: DateTime.new(2025, 1, 1, 1)
 )
 
 ElectionGroup.create(election_id: election.id, group_id: group_id)

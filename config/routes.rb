@@ -5,6 +5,12 @@ require 'rswag/ui/engine'
 Rails.application.routes.draw do
   get 'election_sheet_candidates/new'
   get 'election_sheet_candidates/destroy'
+
+  get 'elections/' => 'elections#current'
+  get 'elections/recent' => 'elections#recent'
+  get 'elections/current' => 'elections#current'
+  get 'elections/upcoming' => 'elections#upcoming'
+
   resources :election_sheets, only: %i[new destroy] do
     member do
       post :vote, to: 'election_sheet_user_votes#create'
