@@ -12,7 +12,6 @@ class ElectionsController < ApplicationController
     dt_now = DateTime.now
 
     @elections = Election.where(date_to: ..dt_now)
-    @header_str = 'Nadchodzące wybory'
     @highlighted_item = 1
 
     authorize @elections
@@ -24,10 +23,8 @@ class ElectionsController < ApplicationController
     dt_now = DateTime.now
 
     @elections = Election.where(date_from: ..dt_now, date_to: dt_now..)
-    @header_str = 'Aktualne wybory'
     @highlighted_item = 2
-
-
+    
     authorize @elections
 
     render :index
@@ -36,9 +33,7 @@ class ElectionsController < ApplicationController
     dt_now = DateTime.now
 
     @elections = Election.where(date_from: dt_now..)
-    @header_str = 'Zeszłe wybory'
     @highlighted_item = 3
-
 
     authorize @elections
 
