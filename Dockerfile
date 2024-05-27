@@ -21,8 +21,6 @@ COPY . /usr/src/app/
 
 RUN bin/rails tailwindcss:install && bundle install --gemfile /usr/src/app/Gemfile
 
-RUN bin/rails assets:precompile
-
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
