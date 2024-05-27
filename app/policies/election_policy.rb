@@ -68,6 +68,20 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
     election.users.exists?(users: { id: user.id }) && election_date_to < DateTime.now
   end
 
+  def pdf_preview?
+    return false unless user.present?
+
+    return true if user.admin? || user.moderator?
+
+    election_date_to = election.date_to || DateTime.new(1)
+
+    election.users.exists?(users: { id: user.id }) && election_date_to < DateTime.now
+  end
+
+  def pdf?
+    pdf_preview?
+  end
+
   private
 
   def election

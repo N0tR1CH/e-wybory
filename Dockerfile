@@ -7,6 +7,7 @@ RUN apt-get update -y \
   build-essential \
   libpq-dev \
   nodejs \
+  wkhtmltopdf \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

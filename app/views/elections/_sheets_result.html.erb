@@ -17,7 +17,7 @@
 
     <span>
       Frekwencja w ramach tej karty wynosi:
-      <b><%= number_to_percentage(100 * voters / (total_voters_eligible * election_sheet.max_votes_per_user).to_d, precision: 2) %></b>
+      <b><%= number_to_percentage(100 * voters / total_voters_eligible.to_d, precision: 2) %></b>
     </span>
 
     <div class="grid grid-cols-12 gap-y-2">
