@@ -1,8 +1,26 @@
 <%= turbo_frame_tag "content" do %>
   <% if policy(Election).index? %>
 
-    <h2>Lista wyborów</h2>
-    <div>
+    <h3>Lista wyborów</h3>
+
+    <div class="w-full grid grid grid-cols-3 bg-white border-gray-300">
+      <%= link_to(
+            'Zeszłe',
+            elections_recent_path,
+            class: "py-6 col-span-1 hover:bg-gray-100 #{@highlighted_item == 1 ? 'bg-gray-100' : ''}",
+      )%>
+      <%= link_to(
+            'Aktualne',
+            elections_current_path,
+            class: "py-6 col-span-1 hover:bg-gray-100 #{@highlighted_item == 2 ? 'bg-gray-100' : ''}",
+      )%>
+      <%= link_to(
+            'Przyszłe',
+            elections_upcoming_path,
+            class: "py-6 c  ol-span-1 hover:bg-gray-100 #{@highlighted_item == 3 ? 'bg-gray-100' : ''}",
+      )%>
+    </div>
+    <div class="pt-4">
       <div class="my-5 bg-white shadow rounded-md border border-gray-200 max-h-[30rem] overflow-x-visible overflow-y-auto pb-2 px-4 w-full grid grid-cols-12 gap-x-2 gap-y-2 min-h-6">
         <div class="border-b-2 border-gray col-span-12 grid grid-cols-12 py-2 font-bold">
           <div class="col-span-2 flex flex-row justify-start">
@@ -15,8 +33,8 @@
             Akcje
           </div>
         </div>
-        <% if Election.exists? %>
-          <% Election.all.each do |e| %>
+        <% if @elections.exists? %>
+          <% @elections.each do |e| %>
             <% can_vote = policy(e).vote? %>
             <div class="col-span-2 flex flex-row justify-start self-center">
               <%= e.id %>

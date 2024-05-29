@@ -34,6 +34,24 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
     user.admin? || user.moderator?
   end
 
+  def recent?
+    return false unless user.present?
+
+    user.admin? || user.moderator?
+  end
+
+  def current?
+    return false unless user.present?
+
+    user.admin? || user.moderator?
+  end
+
+  def upcoming?
+    return false unless user.present?
+
+    user.admin? || user.moderator?
+  end
+
   def edit?
     return false unless user.present?
 

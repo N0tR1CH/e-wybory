@@ -2,9 +2,42 @@ class ElectionsController < ApplicationController
   before_action :set_election, only: %i[edit update destroy vote results]
 
   def index
-    @elections = Election.all
+    @elections ||= Election.all
 
     authorize @elections
+  end
+
+
+  def recent
+    dt_now = DateTime.now
+
+    @elections = Election.where(date_to: ..dt_now)
+    @highlighted_item = 1
+
+    authorize @elections
+
+    render :index
+  end
+
+  def current
+    dt_now = DateTime.now
+
+    @elections = Election.where(date_from: ..dt_now, date_to: dt_now..)
+    @highlighted_item = 2
+    
+    authorize @elections
+
+    render :index
+  end
+  def upcoming
+    dt_now = DateTime.now
+
+    @elections = Election.where(date_from: dt_now..)
+    @highlighted_item = 3
+
+    authorize @elections
+
+    render :index
   end
 
   def new
