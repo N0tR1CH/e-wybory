@@ -105,6 +105,31 @@ class ElectionsController < ApplicationController
 
   end
 
+  def pdf_preview
+    @election = Election.eager_load(:election_sheets, :election_sheet_user_votes, :election_sheet_candidates).find(params[:id])
+
+    authorize @election
+
+    render 'elections/pdf', layout: false
+  end
+
+  def pdf
+    @election = Election.eager_load(:election_sheets, :election_sheet_user_votes, :election_sheet_candidates).find(params[:id])
+
+    authorize @election
+
+    pdf_str = render_to_string pdf: "some_file_name", template: "elections/pdf", encoding: "UTF-8"
+
+    send_data pdf_str,
+              filename: "document.pdf",
+              type: "application/pdf",
+              disposition: "inline",
+              dpi: 300
+
+    #redirect_to("data:application/pdf;base64,#{Base64.strict_encode64(pdf_str)}", allow_other_host: true )
+  end
+
+
   private
 
   def set_election

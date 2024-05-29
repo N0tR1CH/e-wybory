@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   resources :user_groups, :groups, :roles
   resources :elections do
     member do
+      get :pdf_preview
+      get :pdf
       get :vote
       get :results
     end
