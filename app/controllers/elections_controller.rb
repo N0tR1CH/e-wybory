@@ -118,7 +118,7 @@ class ElectionsController < ApplicationController
 
     authorize @election
 
-    pdf_str = render_to_string pdf: "some_file_name", template: "elections/pdf", encoding: "UTF-8"
+    pdf_str = render_to_string pdf: "some_file_name", template: "elections/pdf", encoding: "UTF-8" , dpi: 300, zoom: 1.1285
 
     send_data pdf_str,
               filename: "document.pdf",

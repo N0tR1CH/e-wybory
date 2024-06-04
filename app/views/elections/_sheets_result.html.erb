@@ -20,7 +20,7 @@
       <b><%= number_to_percentage(100 * voters / total_voters_eligible.to_d, precision: 2) %></b>
     </span>
 
-    <div class="grid grid-cols-12 gap-y-2">
+    <div class="grid grid-cols-12 gap-y-2 gap-x-1">
       <div class="col-span-4 text-left font-bold pb-2">
         Kandydat
       </div>
@@ -38,10 +38,10 @@
         <div class="col-span-2 text-left">
           <%= candidate.votes %>
         </div>
-        <div class="col-span-1 text-left">
+        <div class="col-span-2 text-right">
           <b><%= number_to_percentage(percent, precision: 2) %></b>
         </div>
-        <div class="col-span-5 flex flex-row justify-start">
+        <div class="col-span-4 flex flex-row justify-start">
           <div class="h-8 bg-green-100 border border-green-300 hover:bg-green-200 " style="width: <%= percent %>%"></div>
         </div>
       <% end %>

@@ -20,8 +20,7 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
   end
 
   def index?
-    return user.present?
-
+    user.present?
   end
 
   def new?
@@ -35,21 +34,15 @@ class ElectionPolicy < ApplicationPolicy # :nodoc:
   end
 
   def recent?
-    return false unless user.present?
-
-    user.admin? || user.moderator?
+    user.present?
   end
 
   def current?
-    return false unless user.present?
-
-    user.admin? || user.moderator?
+    user.present?
   end
 
   def upcoming?
-    return false unless user.present?
-
-    user.admin? || user.moderator?
+    user.present?
   end
 
   def edit?
