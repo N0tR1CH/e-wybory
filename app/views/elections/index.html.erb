@@ -45,22 +45,27 @@
             <div class="<%= can_vote ? 'col-span-6' : 'col-span-4' %> flex flex-row justify-around self-center">
               <% if policy(e).results? %>
                 <%= link_to results_election_path(id: e.id) do %>
-                  <i class="fa-solid fa-square-poll-horizontal" title="Wyniki"></i>
+                  <i class="fa-xl fa-solid fa-square-poll-horizontal" title="Wyniki"></i>
+                <% end %>
+              <% end %>
+              <% if policy(e).pdf? %>
+                <%= link_to pdf_election_path(id: e.id), data: {turbo: false}  do %>
+                  <i class="fa-xl fa-solid fa-file-pdf" title="Wyniki PDF"></i>
                 <% end %>
               <% end %>
               <% if can_vote %>
                 <%= link_to vote_election_path(id: e.id) do %>
-                  <i class="fa-solid fa-check-to-slot" title="Głosowanie"></i>
+                  <i class="fa-xl fa-solid fa-check-to-slot" title="Głosowanie"></i>
                 <% end %>
               <% end %>
               <% if policy(Election).new? %>
                 <%= link_to edit_election_path(id: e.id) do %>
-                  <i class="fa-solid fa-pen-to-square" title="Edycja"></i>
+                  <i class="fa-xl fa-solid fa-pen-to-square" title="Edycja"></i>
                 <% end %>
               <% end %>
               <% if policy(Election).destroy? %>
                 <%= button_to e, method: :delete do %>
-                  <i class="fa-solid fa-trash" style="color: #000000;" title="Usunięcie"></i>
+                  <i class="fa-xl fa-solid fa-trash" style="color: #000000;" title="Usunięcie"></i>
                 <% end %>
               <% end %>
             </div>
